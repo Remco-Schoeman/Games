@@ -19,19 +19,7 @@
 
   <main class="game-grid">
     <a class="game-card" href="./games/tiles/">
-      <div class="game-thumb" aria-hidden="true">
-        <svg viewBox="0 0 120 120" xmlns="http://www.w3.org/2000/svg">
-          <defs>
-            <pattern id="thumb-grid" width="30" height="30" patternUnits="userSpaceOnUse">
-              <rect width="30" height="30" fill="#fff8ec"/>
-              <circle cx="15" cy="15" r="9" fill="none" stroke="#1976d2" stroke-width="2.5"/>
-              <circle cx="15" cy="15" r="3" fill="#d32f2f"/>
-            </pattern>
-          </defs>
-          <rect width="120" height="120" fill="url(#thumb-grid)"/>
-          <rect x="0.5" y="0.5" width="119" height="119" fill="none" stroke="#1b2a41" stroke-width="1.5"/>
-        </svg>
-      </div>
+      <div class="game-thumb" id="thumb-tiles" aria-hidden="true"></div>
       <div class="game-meta">
         <h2>Azulejo Tiles</h2>
         <p>Match the topmost pattern on each tile to clear the board. Beat the clock.</p>
@@ -62,6 +50,38 @@
     input.addEventListener('blur', () => {
       localStorage.setItem(KEY, input.value.trim());
     });
+  </script>
+
+  <script type="module">
+    // Tiles thumbnail: a mini board drawn from the same patterns & palette
+    // the actual game uses, so it always reflects the current catalogue.
+    import { PATTERN_POOL, COLOR_PALETTE } from './games/tiles/patterns.js';
+    const thumb = document.getElementById('thumb-tiles');
+    if (thumb) {
+      const COLS = 8, ROWS = 5;
+      const CELL = 100;
+      const GAP = 2;
+      const FACE = CELL - GAP;
+      const FACE_SCALE = FACE / CELL;
+      const W = COLS * CELL, H = ROWS * CELL;
+      const pick = (arr) => arr[Math.floor(Math.random() * arr.length)];
+      let svg = `<svg viewBox="0 0 ${W} ${H}" preserveAspectRatio="xMidYMid slice" xmlns="http://www.w3.org/2000/svg">`;
+      svg += `<rect width="${W}" height="${H}" fill="#1b2a41"/>`;
+      for (let r = 0; r < ROWS; r++) {
+        for (let c = 0; c < COLS; c++) {
+          const p = pick(PATTERN_POOL);
+          const col = pick(COLOR_PALETTE);
+          const tx = c * CELL + GAP / 2;
+          const ty = r * CELL + GAP / 2;
+          svg += `<g transform="translate(${tx} ${ty}) scale(${FACE_SCALE})">`
+              +    `<rect width="100" height="100" fill="#fdf6e3"/>`
+              +    p.render(col)
+              +  `</g>`;
+        }
+      }
+      svg += `</svg>`;
+      thumb.innerHTML = svg;
+    }
   </script>
 </body>
 </html>
