@@ -163,10 +163,10 @@ const PATTERN_LIBRARY = [
     <rect x="14" y="42" width="72" height="16" fill="${c}"/>
   `,
 
-  // 19. Open six-point star
+  // 19. Two filled triangles, tips meeting at the centre
   (c) => `
-    <polygon points="50,6 82,60 18,60" fill="none" stroke="${c}" stroke-width="5"/>
-    <polygon points="50,94 82,40 18,40" fill="none" stroke="${c}" stroke-width="5"/>
+    <polygon points="0,0 100,0 50,50" fill="${c}"/>
+    <polygon points="0,100 100,100 50,50" fill="${c}"/>
   `,
 
   // 20. Four corner discs + centre diamond
