@@ -1,4 +1,4 @@
-import { PATTERN_POOL } from './patterns.js';
+import { PATTERN_POOL, COLOR_PALETTE } from './patterns.js';
 
 // --- Configuration ---
 const ROWS = 8;
@@ -10,17 +10,6 @@ const SCORES_KEY = 'tiles.highscores.v1';
 const NAME_KEY = 'pocketgames.playerName';
 const LAYERS_KEY = 'tiles.layers';
 const MAX_SCORES = 10;
-
-const COLOR_PALETTE = [
-  '#0d3b6f', // cobalt
-  '#2e6cb5', // bright royal blue
-  '#5b8cc4', // sky blue
-  '#0a2a4a', // dark navy
-  '#d4a02a', // mustard yellow
-  '#b87a1e', // amber
-  '#a44f24', // burnt sienna
-  '#2f7a44', // forest green
-];
 
 // --- DOM ---
 const $ = (id) => document.getElementById(id);

@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <meta name="theme-color" content="#1b2a41" />
+  <title>Azulejo Tiles — About</title>
+  <link rel="stylesheet" href="../../styles.css" />
+  <link rel="stylesheet" href="./tiles.css" />
+</head>
+<body class="tiles-page about-page">
+  <header class="tiles-header">
+    <a class="back" href="./" aria-label="Back to game">&larr;</a>
+    <h1>About · Tiles</h1>
+    <span class="icon-btn placeholder-btn" aria-hidden="true"></span>
+  </header>
+
+  <main class="about">
+    <section class="about-section">
+      <h2>How it works</h2>
+      <p>Each game randomly draws 6 colours from the palette below and 20 patterns from the gallery below that. The 6 × 8 board is built so every cell shows a different colour on every layer, and every pair of tile positions matches at most once across the whole game.</p>
+    </section>
+
+    <section class="about-section">
+      <h2>Colour palette <span class="muted-tag" id="palette-count"></span></h2>
+      <p class="hint">6 of these are picked at random for each game.</p>
+      <ul class="swatch-grid" id="swatch-grid"></ul>
+    </section>
+
+    <section class="about-section">
+      <h2>Pattern gallery <span class="muted-tag" id="pattern-count"></span></h2>
+      <p class="hint">20 of these are picked at random for each game. Tap a pattern to recolour it.</p>
+      <ul class="pattern-grid" id="pattern-grid"></ul>
+    </section>
+  </main>
+
+  <script type="module">
+    import { PATTERN_POOL, COLOR_PALETTE } from './patterns.js';
+
+    const COLOR_NAMES = [
+      'Cobalt', 'Royal blue', 'Sky', 'Navy',
+      'Mustard', 'Amber', 'Sienna', 'Forest',
+    ];
+
+    document.getElementById('palette-count').textContent = `${COLOR_PALETTE.length} colours`;
+    document.getElementById('pattern-count').textContent = `${PATTERN_POOL.length} patterns`;
+
+    const swatch = document.getElementById('swatch-grid');
+    COLOR_PALETTE.forEach((c, i) => {
+      const li = document.createElement('li');
+      li.className = 'swatch';
+      li.innerHTML = `
+        <div class="swatch-chip" style="background:${c}"></div>
+        <div class="swatch-meta">
+          <span class="swatch-name">${COLOR_NAMES[i] || ''}</span>
+          <code>${c}</code>
+        </div>`;
+      swatch.appendChild(li);
+    });
+
+    const pgrid = document.getElementById('pattern-grid');
+    PATTERN_POOL.forEach((p) => {
+      const li = document.createElement('li');
+      li.className = 'pattern-card';
+      // Each pattern starts with a different palette colour so the gallery is visually mixed.
+      let colorIdx = p.id % COLOR_PALETTE.length;
+      const renderInto = () => {
+        li.querySelector('.pattern-tile').innerHTML =
+          `<svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">${p.render(COLOR_PALETTE[colorIdx])}</svg>`;
+      };
+      li.innerHTML = `<div class="pattern-tile"></div><span>#${p.id + 1}</span>`;
+      renderInto();
+      li.addEventListener('click', () => {
+        colorIdx = (colorIdx + 1) % COLOR_PALETTE.length;
+        renderInto();
+      });
+      pgrid.appendChild(li);
+    });
+  </script>
+</body>
+</html>
