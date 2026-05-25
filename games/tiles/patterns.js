@@ -219,11 +219,10 @@ export const PATTERN_POOL = PATTERN_LIBRARY.map((fn, i) => ({ id: i, render: fn 
 
 export const COLOR_PALETTE = [
   '#0d3b6f', // cobalt
-  '#2e6cb5', // bright royal blue
   '#5b8cc4', // sky blue
   '#0a2a4a', // dark navy
   '#d4a02a', // mustard yellow
-  '#b87a1e', // amber
   '#a44f24', // burnt sienna
-  '#2f7a44', // forest green
+  '#14492b', // dark green
+  '#7fb07a', // light green
 ];
