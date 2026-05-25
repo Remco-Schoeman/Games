@@ -143,13 +143,9 @@ function paintTile(el, r, c) {
   }
   // Render every remaining layer in a single SVG, bottom-up, with transparent
   // group backgrounds so lower layers peek through the gaps of higher ones.
-  // Lower layers fade slightly so the topmost (matchable) layer stands out.
-  const lastIdx = layers.length - 1;
-  const groups = layers.map((layer, i) => {
+  const groups = layers.map((layer) => {
     const pat = state.patternsById[layer.patternId];
-    const depth = lastIdx - i; // 0 = top
-    const opacity = depth === 0 ? 1 : Math.max(0.18, 0.55 - depth * 0.15);
-    return `<g opacity="${opacity}">${pat.render(layer.color)}</g>`;
+    return `<g>${pat.render(layer.color)}</g>`;
   }).join('');
   el.innerHTML = `<svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">${groups}</svg>`;
   el.setAttribute(
