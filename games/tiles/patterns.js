@@ -201,18 +201,25 @@ const PATTERN_LIBRARY = [
     <polygon points="50,28 64,50 50,72 36,50" fill="${c}"/>
   `,
 
-  // 24. Compass rose
-  (c) => `
-    <polygon points="50,4 56,40 50,48 44,40" fill="${c}"/>
-    <polygon points="50,96 56,60 50,52 44,60" fill="${c}"/>
-    <polygon points="4,50 40,56 48,50 40,44" fill="${c}"/>
-    <polygon points="96,50 60,56 52,50 60,44" fill="${c}"/>
-    <polygon points="14,14 38,40 32,46 22,38" fill="${c}"/>
-    <polygon points="86,14 62,40 68,46 78,38" fill="${c}"/>
-    <polygon points="14,86 38,60 32,54 22,62" fill="${c}"/>
-    <polygon points="86,86 62,60 68,54 78,62" fill="${c}"/>
-    <circle cx="50" cy="50" r="8" fill="${c}"/>
-  `,
+  // 24. Compass rose — 8 identical kite arms, 45° apart
+  (c) => {
+    const cx = 50, cy = 50;
+    const tipDist = 46;
+    const wideDist = 36;
+    const halfWidth = 6;
+    const arms = [];
+    for (let i = 0; i < 8; i++) {
+      const a = (Math.PI * 2 * i) / 8;
+      const ca = Math.cos(a), sa = Math.sin(a);
+      const tx = cx + ca * tipDist, ty = cy + sa * tipDist;
+      const wx = cx + ca * wideDist, wy = cy + sa * wideDist;
+      const px = -sa, py = ca; // perpendicular to arm direction
+      const w1x = wx + px * halfWidth, w1y = wy + py * halfWidth;
+      const w2x = wx - px * halfWidth, w2y = wy - py * halfWidth;
+      arms.push(`<polygon points="${tx.toFixed(1)},${ty.toFixed(1)} ${w1x.toFixed(1)},${w1y.toFixed(1)} ${cx},${cy} ${w2x.toFixed(1)},${w2y.toFixed(1)}" fill="${c}"/>`);
+    }
+    return arms.join('') + `<circle cx="${cx}" cy="${cy}" r="8" fill="${c}"/>`;
+  },
 ];
 
 export const PATTERN_POOL = PATTERN_LIBRARY.map((fn, i) => ({ id: i, render: fn }));
