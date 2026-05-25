@@ -90,11 +90,10 @@
   display: grid;
   grid-template-columns: repeat(6, 1fr);
   grid-template-rows: repeat(8, 1fr);
-  gap: 6px;
+  gap: 2px;
   aspect-ratio: 6 / 8;
   max-width: min(100%, 480px);
   max-height: 100%;
-  /* Fallback for browsers that don't fully resolve aspect-ratio with two max-* constraints */
   width: min(100%, calc((100dvh - 180px) * 6 / 8), 480px);
 }
 

@@ -12,18 +12,14 @@ const LAYERS_KEY = 'tiles.layers';
 const MAX_SCORES = 10;
 
 const COLOR_PALETTE = [
-  '#1976d2', // azure blue (classic azulejo)
-  '#0d47a1', // deep blue
-  '#00897b', // teal
-  '#388e3c', // green
-  '#fbc02d', // mustard
-  '#f57c00', // amber
-  '#d32f2f', // red
-  '#7b1fa2', // purple
-  '#5d4037', // sienna
-  '#c2185b', // magenta
-  '#455a64', // slate
-  '#00838f', // cyan
+  '#0d3b6f', // cobalt
+  '#2e6cb5', // bright royal blue
+  '#5b8cc4', // sky blue
+  '#0a2a4a', // dark navy
+  '#d4a02a', // mustard yellow
+  '#b87a1e', // amber
+  '#a44f24', // burnt sienna
+  '#2f7a44', // forest green
 ];
 
 // --- DOM ---
@@ -63,38 +59,48 @@ let timerId = null;
 function newGame(layers) {
   const colors = pickRandom(COLOR_PALETTE, COLORS_PER_GAME);
   const patterns = pickRandom(PATTERN_POOL, PATTERNS_PER_GAME);
+  const N = colors.length;
+  const totalCells = ROWS * COLS;
+  const cellsPerColor = totalCells / N;          // 48 / 6 = 8
+  const patternsPerColor = cellsPerColor / 2;    // 4 patterns per (layer, colour)
 
-  // Build a combo pool from the chosen colours x patterns.
-  const allCombos = [];
-  for (const color of colors) {
-    for (const p of patterns) {
-      allCombos.push({ color, patternId: p.id });
-    }
+  // Each cell gets a base colour index 0..N-1; layer L uses colour (base + L) mod N.
+  // Because shifts are distinct mod N (with layers <= N), every cell ends up with
+  // a unique colour on every layer.
+  const flatBases = [];
+  for (let i = 0; i < N; i++) {
+    for (let j = 0; j < cellsPerColor; j++) flatBases.push(i);
   }
+  shuffle(flatBases);
 
-  // Tiles: a 2D grid; each cell is an array of layers (bottom -> top).
   const tiles = Array.from({ length: ROWS }, () =>
     Array.from({ length: COLS }, () => [])
   );
 
-  const cellsPerLayer = ROWS * COLS;
-  const pairsPerLayer = cellsPerLayer / 2;
-
-  for (let layer = 0; layer < layers; layer++) {
-    // Pick `pairsPerLayer` unique combos for this layer.
-    const layerCombos = pickRandom(allCombos, pairsPerLayer);
-    // Duplicate each so we have exact pairs.
-    const layerTiles = [];
-    for (const c of layerCombos) {
-      layerTiles.push({ ...c });
-      layerTiles.push({ ...c });
-    }
-    shuffle(layerTiles);
-    // Distribute into cells.
+  // Group cell positions by base index for quick lookup.
+  const cellsByBase = Array.from({ length: N }, () => []);
+  {
     let idx = 0;
     for (let r = 0; r < ROWS; r++) {
       for (let cc = 0; cc < COLS; cc++) {
-        tiles[r][cc].push(layerTiles[idx++]);
+        cellsByBase[flatBases[idx++]].push([r, cc]);
+      }
+    }
+  }
+
+  for (let layer = 0; layer < layers; layer++) {
+    for (let baseIdx = 0; baseIdx < N; baseIdx++) {
+      const color = colors[(baseIdx + layer) % N];
+      const cells = cellsByBase[baseIdx].slice();
+      shuffle(cells);
+      // Pick 4 patterns, each used by 2 cells -> 4 unique (colour,pattern) pairs.
+      const layerPatterns = pickRandom(patterns, patternsPerColor);
+      const slots = [];
+      for (const p of layerPatterns) slots.push(p.id, p.id);
+      shuffle(slots);
+      for (let i = 0; i < cells.length; i++) {
+        const [r, cc] = cells[i];
+        tiles[r][cc].push({ color, patternId: slots[i] });
       }
     }
   }
@@ -105,10 +111,10 @@ function newGame(layers) {
     patterns,
     patternsById: Object.fromEntries(patterns.map((p) => [p.id, p])),
     tiles,
-    selected: null, // {r, c, el}
+    selected: null,
     locked: false,
     cleared: 0,
-    totalPairs: pairsPerLayer * layers,
+    totalPairs: patternsPerColor * N * layers,   // 4 * 6 * layers = 24 * layers
     misses: 0,
     startTime: Date.now(),
     finished: false,
