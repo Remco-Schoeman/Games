@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <meta name="theme-color" content="#1b2a41" />
+  <title>Pocket Games</title>
+  <link rel="stylesheet" href="./styles.css" />
+</head>
+<body>
+  <header class="site-header">
+    <h1>Pocket Games</h1>
+    <p class="tagline">A tiny collection of browser games for your phone.</p>
+    <div class="player-bar">
+      <label for="player-name">Player</label>
+      <input id="player-name" type="text" autocomplete="off" maxlength="20" placeholder="Anonymous" />
+    </div>
+  </header>
+
+  <main class="game-grid">
+    <a class="game-card" href="./games/tiles/">
+      <div class="game-thumb" aria-hidden="true">
+        <svg viewBox="0 0 120 120" xmlns="http://www.w3.org/2000/svg">
+          <defs>
+            <pattern id="thumb-grid" width="30" height="30" patternUnits="userSpaceOnUse">
+              <rect width="30" height="30" fill="#fff8ec"/>
+              <circle cx="15" cy="15" r="9" fill="none" stroke="#1976d2" stroke-width="2.5"/>
+              <circle cx="15" cy="15" r="3" fill="#d32f2f"/>
+            </pattern>
+          </defs>
+          <rect width="120" height="120" fill="url(#thumb-grid)"/>
+          <rect x="0.5" y="0.5" width="119" height="119" fill="none" stroke="#1b2a41" stroke-width="1.5"/>
+        </svg>
+      </div>
+      <div class="game-meta">
+        <h2>Azulejo Tiles</h2>
+        <p>Match the topmost pattern on each tile to clear the board. Beat the clock.</p>
+      </div>
+    </a>
+
+    <div class="game-card coming-soon" aria-disabled="true">
+      <div class="game-thumb placeholder" aria-hidden="true">?</div>
+      <div class="game-meta">
+        <h2>More soon</h2>
+        <p>New games will appear here.</p>
+      </div>
+    </div>
+  </main>
+
+  <footer class="site-footer">
+    <small>All progress is saved locally in your browser.</small>
+  </footer>
+
+  <script>
+    // Shared: player name persisted across the site.
+    const KEY = 'pocketgames.playerName';
+    const input = document.getElementById('player-name');
+    input.value = localStorage.getItem(KEY) || '';
+    input.addEventListener('change', () => {
+      localStorage.setItem(KEY, input.value.trim());
+    });
+    input.addEventListener('blur', () => {
+      localStorage.setItem(KEY, input.value.trim());
+    });
+  </script>
+</body>
+</html>
