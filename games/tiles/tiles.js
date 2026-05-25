@@ -56,6 +56,25 @@ function fmtTime(ms) {
 let state = null;
 let timerId = null;
 
+// Generate `rounds` disjoint perfect matchings of `cells` (length must be even)
+// using the round-robin circle method. Across the returned rounds, no cell-pair
+// repeats — every cell is paired with a different partner each round.
+function roundRobinMatchings(cells, rounds) {
+  const n = cells.length;
+  const rotating = cells.slice(1);
+  const matchings = [];
+  for (let r = 0; r < rounds; r++) {
+    const ring = [cells[0], ...rotating];
+    const pairs = [];
+    for (let i = 0; i < n / 2; i++) {
+      pairs.push([ring[i], ring[n - 1 - i]]);
+    }
+    matchings.push(pairs);
+    rotating.unshift(rotating.pop());
+  }
+  return matchings;
+}
+
 function newGame(layers) {
   const colors = pickRandom(COLOR_PALETTE, COLORS_PER_GAME);
   const patterns = pickRandom(PATTERN_POOL, PATTERNS_PER_GAME);
@@ -88,19 +107,26 @@ function newGame(layers) {
     }
   }
 
+  // Per base group, pre-compute `layers` disjoint perfect matchings so that
+  // no pair of tile positions ever forms a match on more than one layer.
+  // (Pairs only ever form within a base group — same colour on a given layer
+  // means same base — so global uniqueness reduces to per-group uniqueness.)
+  const matchingsByBase = cellsByBase.map((cells) => {
+    const shuffled = cells.slice();
+    shuffle(shuffled);
+    return roundRobinMatchings(shuffled, layers);
+  });
+
   for (let layer = 0; layer < layers; layer++) {
     for (let baseIdx = 0; baseIdx < N; baseIdx++) {
       const color = colors[(baseIdx + layer) % N];
-      const cells = cellsByBase[baseIdx].slice();
-      shuffle(cells);
-      // Pick 4 patterns, each used by 2 cells -> 4 unique (colour,pattern) pairs.
+      const pairs = matchingsByBase[baseIdx][layer];
       const layerPatterns = pickRandom(patterns, patternsPerColor);
-      const slots = [];
-      for (const p of layerPatterns) slots.push(p.id, p.id);
-      shuffle(slots);
-      for (let i = 0; i < cells.length; i++) {
-        const [r, cc] = cells[i];
-        tiles[r][cc].push({ color, patternId: slots[i] });
+      for (let i = 0; i < pairs.length; i++) {
+        const [[r1, c1], [r2, c2]] = pairs[i];
+        const pid = layerPatterns[i].id;
+        tiles[r1][c1].push({ color, patternId: pid });
+        tiles[r2][c2].push({ color, patternId: pid });
       }
     }
   }
