@@ -149,11 +149,11 @@ const PATTERN_LIBRARY = [
     <path d="M62,50 C78,40 92,40 98,50 C92,60 78,60 62,50 Z" fill="${c}"/>
   `,
 
-  // 17. X with central disc
+  // 17. Pattern 18 rotated 45° — inscribed diamond border + X cross
   (c) => `
-    <line x1="6" y1="6" x2="94" y2="94" stroke="${c}" stroke-width="11"/>
-    <line x1="94" y1="6" x2="6" y2="94" stroke="${c}" stroke-width="11"/>
-    <circle cx="50" cy="50" r="18" fill="${c}"/>
+    <polygon points="50,3 97,50 50,97 3,50" fill="none" stroke="${c}" stroke-width="3"/>
+    <polygon points="64,28 72,36 36,72 28,64" fill="${c}"/>
+    <polygon points="36,28 72,64 64,72 28,36" fill="${c}"/>
   `,
 
   // 18. Bordered Greek cross
