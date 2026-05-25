@@ -230,6 +230,5 @@ export const COLOR_PALETTE = [
   '#0a2a4a', // dark navy
   '#d4a02a', // mustard yellow
   '#a44f24', // burnt sienna
-  '#14492b', // dark green
-  '#7fb07a', // light green
+  '#2f7a44', // forest green
 ];
