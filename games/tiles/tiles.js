@@ -141,9 +141,17 @@ function paintTile(el, r, c) {
     el.setAttribute('aria-label', 'empty slot');
     return;
   }
-  const top = layers[layers.length - 1];
-  const pat = state.patternsById[top.patternId];
-  el.innerHTML = `<svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">${pat.render(top.color)}</svg>`;
+  // Render every remaining layer in a single SVG, bottom-up, with transparent
+  // group backgrounds so lower layers peek through the gaps of higher ones.
+  // Lower layers fade slightly so the topmost (matchable) layer stands out.
+  const lastIdx = layers.length - 1;
+  const groups = layers.map((layer, i) => {
+    const pat = state.patternsById[layer.patternId];
+    const depth = lastIdx - i; // 0 = top
+    const opacity = depth === 0 ? 1 : Math.max(0.18, 0.55 - depth * 0.15);
+    return `<g opacity="${opacity}">${pat.render(layer.color)}</g>`;
+  }).join('');
+  el.innerHTML = `<svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">${groups}</svg>`;
   el.setAttribute(
     'aria-label',
     `tile r${r + 1}c${c + 1}, ${layers.length} layer${layers.length === 1 ? '' : 's'}`
