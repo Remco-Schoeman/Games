@@ -3,8 +3,8 @@ import { PATTERN_POOL, COLOR_PALETTE } from './patterns.js';
 // --- Configuration ---
 const ROWS = 8;
 const COLS = 6;
-const PATTERNS_PER_GAME = 20;
-const COLORS_PER_GAME = 6;
+const PATTERNS_PER_GAME = PATTERN_POOL.length;
+const COLORS_PER_GAME = COLOR_PALETTE.length;
 const MISS_PENALTY_SECONDS = 5;
 const SCORES_KEY = 'tiles.highscores.v1';
 const NAME_KEY = 'pocketgames.playerName';
