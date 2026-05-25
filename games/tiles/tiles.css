@@ -321,7 +321,13 @@ button.primary:hover { background: var(--accent-strong); }
 }
 
 /* --- About page --- */
-.about-page { overflow: auto; }
+.tiles-page.about-page {
+  display: block;
+  height: auto;
+  min-height: 100dvh;
+  overflow: visible;
+  touch-action: auto;
+}
 .about-page .placeholder-btn { background: transparent; pointer-events: none; }
 
 .about {
@@ -450,12 +456,27 @@ button.primary:hover { background: var(--accent-strong); }
   font-variant-numeric: tabular-nums;
 }
 
-.about-link {
+a.btn-secondary,
+button.btn-secondary {
   display: block;
   width: 100%;
   text-align: center;
-  margin-top: 14px;
-  color: var(--ink-soft);
-  text-decoration: underline;
-  font-size: 13px;
+  background: transparent;
+  color: var(--ink);
+  border: 1.5px solid var(--ink-soft);
+  border-radius: 12px;
+  padding: 12px 14px;
+  font: inherit;
+  font-weight: 600;
+  font-size: 15px;
+  margin-top: 10px;
+  cursor: pointer;
+  text-decoration: none;
+  transition: background 0.15s ease, border-color 0.15s ease;
+}
+
+a.btn-secondary:hover,
+button.btn-secondary:hover {
+  background: rgba(0, 0, 0, 0.04);
+  border-color: var(--ink);
 }
