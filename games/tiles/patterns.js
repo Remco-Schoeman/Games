@@ -116,13 +116,7 @@ const PATTERN_LIBRARY = [
     <path d="M0,82 Q12,96 24,82 T48,82 T72,82 T96,82 L100,82 L100,100 L0,100 Z" fill="${c}"/>
   `,
 
-  // 13. Linked rings
-  (c) => `
-    <circle cx="30" cy="50" r="26" fill="none" stroke="${c}" stroke-width="6"/>
-    <circle cx="70" cy="50" r="26" fill="none" stroke="${c}" stroke-width="6"/>
-  `,
-
-  // 14. Octagon ring
+  // 13. Octagon ring
   (c) => {
     const ptStr = (r) => {
       const arr = [];
@@ -136,11 +130,7 @@ const PATTERN_LIBRARY = [
             <polygon points="${ptStr(22)}" fill="${c}"/>`;
   },
 
-  // 15. Square spiral
-  (c) => `<path d="M8,8 L92,8 L92,92 L20,92 L20,22 L78,22 L78,78 L34,78 L34,36 L66,36 L66,64 L48,64"
-                fill="none" stroke="${c}" stroke-width="4" stroke-linejoin="miter"/>`,
-
-  // 16. Floral medallion with leaf arms
+  // 14. Floral medallion with leaf arms
   (c) => `
     <circle cx="50" cy="50" r="12" fill="${c}"/>
     <path d="M50,38 C40,22 40,8 50,2 C60,8 60,22 50,38 Z" fill="${c}"/>
@@ -149,27 +139,27 @@ const PATTERN_LIBRARY = [
     <path d="M62,50 C78,40 92,40 98,50 C92,60 78,60 62,50 Z" fill="${c}"/>
   `,
 
-  // 17. Pattern 18 rotated 45° — inscribed diamond border + X cross
+  // 15. Pattern 16 rotated 45° — inscribed diamond border + X cross
   (c) => `
     <polygon points="50,3 97,50 50,97 3,50" fill="none" stroke="${c}" stroke-width="3"/>
     <polygon points="64,28 72,36 36,72 28,64" fill="${c}"/>
     <polygon points="36,28 72,64 64,72 28,36" fill="${c}"/>
   `,
 
-  // 18. Bordered Greek cross
+  // 16. Bordered Greek cross
   (c) => `
     <rect x="3" y="3" width="94" height="94" fill="none" stroke="${c}" stroke-width="3"/>
     <rect x="42" y="14" width="16" height="72" fill="${c}"/>
     <rect x="14" y="42" width="72" height="16" fill="${c}"/>
   `,
 
-  // 19. Two filled triangles, tips meeting at the centre
+  // 17. Two filled triangles, tips meeting at the centre
   (c) => `
     <polygon points="0,0 100,0 50,50" fill="${c}"/>
     <polygon points="0,100 100,100 50,50" fill="${c}"/>
   `,
 
-  // 20. Four corner discs + centre diamond
+  // 18. Four corner discs + centre diamond
   (c) => `
     <circle cx="22" cy="22" r="18" fill="${c}"/>
     <circle cx="78" cy="22" r="18" fill="${c}"/>
@@ -178,14 +168,7 @@ const PATTERN_LIBRARY = [
     <polygon points="50,32 68,50 50,68 32,50" fill="${c}"/>
   `,
 
-  // 21. Three horizontal bands
-  (c) => `
-    <rect x="0" y="6" width="100" height="14" fill="${c}"/>
-    <rect x="0" y="43" width="100" height="14" fill="${c}"/>
-    <rect x="0" y="80" width="100" height="14" fill="${c}"/>
-  `,
-
-  // 22. Bordered quatrefoil
+  // 19. Bordered quatrefoil
   (c) => `
     <rect x="3" y="3" width="94" height="94" fill="none" stroke="${c}" stroke-width="3"/>
     <rect x="40" y="40" width="20" height="20" fill="${c}"/>
@@ -195,13 +178,13 @@ const PATTERN_LIBRARY = [
     <circle cx="78" cy="50" r="12" fill="${c}"/>
   `,
 
-  // 23. Nested diamonds
+  // 20. Nested diamonds
   (c) => `
     <polygon points="50,4 80,50 50,96 20,50" fill="none" stroke="${c}" stroke-width="4"/>
     <polygon points="50,28 64,50 50,72 36,50" fill="${c}"/>
   `,
 
-  // 24. Compass rose — 8 identical kite arms, 45° apart
+  // 21. Compass rose — 8 identical kite arms, 45° apart
   (c) => {
     const cx = 50, cy = 50;
     const tipDist = 46;
