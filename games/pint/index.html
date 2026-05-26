@@ -46,13 +46,12 @@
       <path d="M52 26 Q52 18 60 18 L180 18 Q188 18 188 26 L172 320 Q170 338 152 338 L88 338 Q70 338 68 320 Z"
             fill="rgba(255,255,255,0.04)" stroke="#cfd8e6" stroke-width="2.5"/>
 
-      <!-- Liquid layers, clipped to glass interior -->
+      <!-- Liquid layers, clipped to glass interior. Paint order: stout
+           (dark base), surge (cream stripes laid on top during pouring),
+           head (opaque cream block that sits over both after the settle). -->
       <g clip-path="url(#glass-clip)">
-        <!-- Surge / agitated pour (visible while pouring) -->
-        <rect id="surge-layer" x="40" y="0" width="160" height="360" fill="url(#surge)" opacity="0"/>
-        <!-- Settled stout -->
         <rect id="stout-layer" x="40" y="360" width="160" height="0" fill="url(#grad-stout)"/>
-        <!-- Cream head -->
+        <rect id="surge-layer" x="40" y="0" width="160" height="360" fill="url(#surge)" opacity="0"/>
         <rect id="head-layer" x="40" y="360" width="160" height="0" fill="url(#grad-cream)"/>
       </g>
 

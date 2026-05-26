@@ -79,21 +79,25 @@ function renderGlass() {
   headLayer.setAttribute('y', headTopY);
   headLayer.setAttribute('height', Math.max(0, stoutTopY - headTopY));
 
-  // The surge layer covers the whole liquid column while pouring, fading out as it settles.
-  const isPouring = state.phase === 'pouring1' || state.phase === 'pouring2';
-  const showSurge = isPouring ? 0.85 : Math.max(0, 0.75 * (1 - state.settleProgress));
+  // Surge stripes cover the liquid column. Heavy during the first pour
+  // (whole column is agitated cream); fading through the settle; absent on
+  // the top-off so the cream head reads clearly against the dark stout.
+  let showSurge;
+  if (state.phase === 'pouring1') showSurge = 0.85;
+  else if (state.phase === 'settling') showSurge = 0.7 * (1 - state.settleProgress);
+  else showSurge = 0;
   surgeLayer.setAttribute('y', fillToY(fill));
   surgeLayer.setAttribute('height', Math.max(0, GLASS_BOTTOM - fillToY(fill)));
   surgeLayer.setAttribute('opacity', showSurge.toFixed(2));
 }
 
 function headHeightForState() {
-  // While pouring, the entire column is "agitated" — no separated head yet.
-  // After settle, a creamy head of ~12% of glass sits on top of the stout.
-  if (state.phase === 'pouring1' || state.phase === 'pouring2') return 0;
+  // First pour: whole column is agitated — no separated head yet.
+  // Settle: head grows in. After that (including the top-off pour) it
+  // stays as a ~12%-of-glass cream layer riding on top of the stout.
+  if (state.phase === 'pouring1') return 0;
   if (state.phase === 'settling') return 12 * state.settleProgress;
-  if (state.phase === 'ready2' || state.phase === 'done') return 12;
-  return 0;
+  return 12; // ready2, pouring2, done
 }
 
 // Game loop ---------------------------------------------------------------
