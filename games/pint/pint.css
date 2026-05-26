@@ -63,7 +63,7 @@
   align-items: center;
   justify-content: flex-end;
   gap: 10px;
-  padding: 8px 16px max(env(safe-area-inset-bottom), 18px);
+  padding: 8px 16px max(env(safe-area-inset-bottom), 28px);
   min-height: 0;
 }
 
