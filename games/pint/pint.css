@@ -1,0 +1,233 @@
+.pint-page {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+  min-height: 100dvh;
+  background:
+    radial-gradient(circle at 50% 0%, #28466d 0, transparent 60%),
+    linear-gradient(180deg, #15243b 0%, #0a1626 100%);
+  touch-action: manipulation;
+  overflow: hidden;
+}
+
+.pint-header {
+  display: grid;
+  grid-template-columns: 44px 1fr 44px;
+  align-items: center;
+  padding: 10px 12px;
+  gap: 8px;
+}
+
+.pint-header h1 {
+  margin: 0;
+  font-size: 17px;
+  text-align: center;
+  letter-spacing: 0.4px;
+}
+
+.pint-hud {
+  display: flex;
+  justify-content: center;
+  gap: 8px;
+  padding: 2px 12px 6px;
+  flex-wrap: wrap;
+}
+
+.hud-pill {
+  background: var(--bg-elev);
+  border-radius: 999px;
+  padding: 6px 12px;
+  display: flex;
+  align-items: baseline;
+  gap: 6px;
+  min-height: 28px;
+}
+
+.hud-label {
+  font-size: 10px;
+  letter-spacing: 0.8px;
+  text-transform: uppercase;
+  color: #8aa0ba;
+}
+
+.hud-value {
+  font-size: 14px;
+  font-variant-numeric: tabular-nums;
+  font-weight: 600;
+}
+
+.pint-stage {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 10px;
+  padding: 8px 16px max(env(safe-area-inset-bottom), 18px);
+  min-height: 0;
+}
+
+#glass {
+  flex: 1;
+  max-height: 62vh;
+  width: auto;
+  max-width: 320px;
+  filter: drop-shadow(0 12px 18px rgba(0, 0, 0, 0.5));
+}
+
+.pint-message {
+  font-size: 14px;
+  color: #c9d6e6;
+  text-align: center;
+  min-height: 22px;
+}
+
+.pour-btn {
+  width: min(280px, 80%);
+  height: 64px;
+  border: none;
+  border-radius: 32px;
+  background: linear-gradient(180deg, #f6b352, #d6852a);
+  color: #1b2a41;
+  font: inherit;
+  font-weight: 800;
+  font-size: 17px;
+  letter-spacing: 0.4px;
+  cursor: pointer;
+  user-select: none;
+  -webkit-user-select: none;
+  -webkit-tap-highlight-color: transparent;
+  box-shadow:
+    0 1px 0 rgba(255, 255, 255, 0.4) inset,
+    0 -2px 0 rgba(0, 0, 0, 0.2) inset,
+    0 8px 18px rgba(0, 0, 0, 0.35);
+  transition: transform 0.05s ease, filter 0.1s ease;
+}
+
+.pour-btn:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+  filter: grayscale(0.4);
+}
+
+.pour-btn.pressing {
+  transform: scale(0.96);
+  filter: brightness(1.1);
+}
+
+.text-btn {
+  background: transparent;
+  color: var(--accent);
+  border: 1px solid var(--accent);
+  border-radius: 10px;
+  padding: 8px 14px;
+  font: inherit;
+  font-size: 13px;
+  cursor: pointer;
+}
+
+/* Status banner subtleties */
+.pint-message.warn { color: #ffd47a; }
+.pint-message.good { color: #a8e6a8; }
+.pint-message.bad  { color: #ff9c87; }
+
+/* Foaming ripple animation for the surge layer while pouring */
+@keyframes surge-flow {
+  from { background-position: 0 0; }
+  to   { background-position: 0 -28px; }
+}
+
+/* Overlay styling (reuses shared overlay class from tiles.css? No, define locally) */
+.overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.65);
+  display: grid;
+  place-items: center;
+  padding: 16px;
+  z-index: 10;
+  backdrop-filter: blur(4px);
+}
+
+.overlay.hidden { display: none; }
+
+.panel {
+  background: var(--bg-card);
+  color: var(--ink);
+  border-radius: 16px;
+  padding: 22px;
+  width: min(100%, 380px);
+  box-shadow: 0 18px 40px rgba(0, 0, 0, 0.4);
+  max-height: 90vh;
+  overflow: auto;
+}
+
+.panel h2 { margin: 0 0 6px; font-size: 22px; }
+.panel .muted { color: var(--ink-soft); font-size: 14px; margin: 6px 0 16px; }
+.panel .muted.small { font-size: 12px; }
+
+.score-big {
+  text-align: center;
+  font-size: 56px;
+  font-weight: 800;
+  font-variant-numeric: tabular-nums;
+  color: var(--accent-strong);
+  margin: 4px 0 6px;
+}
+
+button.primary {
+  display: block;
+  width: 100%;
+  background: var(--accent);
+  color: #1b2a41;
+  border: none;
+  border-radius: 12px;
+  padding: 14px;
+  font: inherit;
+  font-weight: 700;
+  font-size: 16px;
+  margin-top: 14px;
+  cursor: pointer;
+}
+
+button.primary:hover { background: var(--accent-strong); }
+
+.panel .text-btn {
+  display: block;
+  width: 100%;
+  margin: 10px 0 0;
+  color: var(--ink-soft);
+  border-color: transparent;
+}
+
+.how {
+  padding-left: 18px;
+  margin: 0 0 16px;
+  font-size: 14px;
+  color: var(--ink-soft);
+  line-height: 1.45;
+}
+
+.scores { margin-top: 18px; font-size: 14px; }
+.scores summary { cursor: pointer; font-weight: 600; color: var(--ink); }
+.scores-list {
+  margin: 10px 0 0;
+  padding-left: 24px;
+  color: var(--ink-soft);
+  font-variant-numeric: tabular-nums;
+}
+.scores-list li { margin: 4px 0; }
+.scores-list .me { color: var(--accent-strong); font-weight: 700; }
+.scores-list.empty::after {
+  content: "No pours yet.";
+  display: block;
+  margin-left: -10px;
+  color: var(--ink-soft);
+  font-style: italic;
+}
+
+@media (max-height: 640px) {
+  .pint-header h1 { font-size: 15px; }
+  #glass { max-height: 54vh; }
+  .pour-btn { height: 56px; font-size: 15px; }
+}

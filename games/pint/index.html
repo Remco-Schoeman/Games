@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover, user-scalable=no" />
+  <meta name="theme-color" content="#1b2a41" />
+  <title>Pour the Perfect Pint</title>
+  <link rel="stylesheet" href="../../styles.css" />
+  <link rel="stylesheet" href="./pint.css" />
+</head>
+<body class="pint-page">
+  <header class="pint-header">
+    <a class="back" href="../../" aria-label="Back to games">&larr;</a>
+    <h1>Pour the Perfect Pint</h1>
+    <button id="btn-help" class="icon-btn" aria-label="How to play">?</button>
+  </header>
+
+  <section id="hud" class="pint-hud" aria-live="polite">
+    <div class="hud-pill"><span class="hud-label">Stage</span><span id="hud-stage" class="hud-value">—</span></div>
+    <div class="hud-pill"><span class="hud-label">Fill</span><span id="hud-fill" class="hud-value">0%</span></div>
+    <div class="hud-pill"><span class="hud-label">Best</span><span id="hud-best" class="hud-value">0</span></div>
+  </section>
+
+  <main class="pint-stage">
+    <!-- The pint glass is an SVG with a clipPath so liquid stays inside the silhouette. -->
+    <svg id="glass" viewBox="0 0 240 360" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+      <defs>
+        <clipPath id="glass-clip">
+          <path d="M52 26 Q52 18 60 18 L180 18 Q188 18 188 26 L172 320 Q170 338 152 338 L88 338 Q70 338 68 320 Z"/>
+        </clipPath>
+        <linearGradient id="grad-cream" x1="0" y1="0" x2="0" y2="1">
+          <stop offset="0" stop-color="#fff8e7"/>
+          <stop offset="1" stop-color="#e8d5a3"/>
+        </linearGradient>
+        <linearGradient id="grad-stout" x1="0" y1="0" x2="0" y2="1">
+          <stop offset="0" stop-color="#3a1d05"/>
+          <stop offset="1" stop-color="#0d0703"/>
+        </linearGradient>
+        <pattern id="surge" x="0" y="0" width="40" height="14" patternUnits="userSpaceOnUse">
+          <rect width="40" height="14" fill="#5b3a1b"/>
+          <path d="M0 7 Q10 0 20 7 T40 7" fill="none" stroke="#cba47a" stroke-width="3" stroke-linecap="round"/>
+        </pattern>
+      </defs>
+
+      <!-- Glass body outline -->
+      <path d="M52 26 Q52 18 60 18 L180 18 Q188 18 188 26 L172 320 Q170 338 152 338 L88 338 Q70 338 68 320 Z"
+            fill="rgba(255,255,255,0.04)" stroke="#cfd8e6" stroke-width="2.5"/>
+
+      <!-- Liquid layers, clipped to glass interior -->
+      <g clip-path="url(#glass-clip)">
+        <!-- Surge / agitated pour (visible while pouring) -->
+        <rect id="surge-layer" x="40" y="0" width="160" height="360" fill="url(#surge)" opacity="0"/>
+        <!-- Settled stout -->
+        <rect id="stout-layer" x="40" y="360" width="160" height="0" fill="url(#grad-stout)"/>
+        <!-- Cream head -->
+        <rect id="head-layer" x="40" y="360" width="160" height="0" fill="url(#grad-cream)"/>
+      </g>
+
+      <!-- Harp etching mark at the 3/4 line (visual target for the first pour) -->
+      <g id="harp-mark" opacity="0.55">
+        <line x1="60" y1="120" x2="84" y2="120" stroke="#cfd8e6" stroke-width="1.5"/>
+        <line x1="156" y1="120" x2="180" y2="120" stroke="#cfd8e6" stroke-width="1.5"/>
+        <path d="M110 108 Q120 100 130 108 L130 132 Q120 138 110 132 Z M120 108 L120 132"
+              fill="none" stroke="#cfd8e6" stroke-width="1.5" stroke-linejoin="round"/>
+      </g>
+
+      <!-- Rim highlight -->
+      <ellipse cx="120" cy="22" rx="68" ry="6" fill="none" stroke="rgba(255,255,255,0.25)" stroke-width="1"/>
+    </svg>
+
+    <div id="message" class="pint-message">Hold the pour to begin.</div>
+
+    <button id="pour-btn" class="pour-btn" type="button">
+      <span class="pour-btn-label">Hold to pour</span>
+    </button>
+
+    <button id="btn-restart" class="text-btn" type="button">Restart</button>
+  </main>
+
+  <!-- Round end -->
+  <div id="overlay-done" class="overlay hidden">
+    <div class="panel">
+      <h2>Slainte!</h2>
+      <p id="done-summary" class="muted"></p>
+      <div class="score-big"><span id="done-score">0</span></div>
+      <p class="muted small">Higher is better. 100 = the perfect pour.</p>
+      <button id="btn-again" class="primary" type="button">Pour another</button>
+      <button id="btn-home" class="text-btn" type="button">Back to games</button>
+      <details class="scores" open>
+        <summary>Best pours</summary>
+        <ol id="best-list" class="scores-list"></ol>
+      </details>
+    </div>
+  </div>
+
+  <!-- Help -->
+  <div id="overlay-help" class="overlay hidden">
+    <div class="panel">
+      <h2>The two-part pour</h2>
+      <ul class="how">
+        <li><strong>Hold to pour</strong> until the stout reaches the harp etched on the glass — three quarters full.</li>
+        <li><strong>Release</strong> and let it surge: the bubbles separate into a creamy head and a dark body. Wait for it.</li>
+        <li><strong>Hold again</strong> to top off, stopping the moment the head domes just over the rim.</li>
+        <li>Score is the average of the two stops, with a bonus for waiting through the full settle and a penalty for overflowing.</li>
+      </ul>
+      <button id="btn-help-close" class="primary" type="button">Got it</button>
+    </div>
+  </div>
+
+  <script type="module" src="./pint.js"></script>
+</body>
+</html>
