@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
+  <meta name="theme-color" content="#1b2a41" />
+  <title>Brick Builder</title>
+  <link rel="stylesheet" href="../../styles.css" />
+  <link rel="stylesheet" href="./lego.css" />
+</head>
+<body class="lego-page">
+  <header class="lego-header">
+    <a class="back" href="../../" aria-label="Back to games">&larr;</a>
+    <h1>Brick Builder</h1>
+    <button id="btn-help" class="icon-btn" aria-label="How to play">?</button>
+  </header>
+
+  <section id="hud" class="lego-hud" aria-live="polite">
+    <div class="hud-pill"><span class="hud-label">Level</span><span id="hud-level" class="hud-value">1/5</span></div>
+    <div class="hud-pill"><span class="hud-label">Build</span><span id="hud-name" class="hud-value">—</span></div>
+    <div class="hud-pill"><span class="hud-label">Bricks</span><span id="hud-bricks" class="hud-value">0/0</span></div>
+    <button id="btn-restart" class="text-btn" type="button">Reset</button>
+  </section>
+
+  <main class="lego-stage">
+    <div id="board-wrap" class="board-wrap">
+      <svg id="board" xmlns="http://www.w3.org/2000/svg" aria-label="Baseplate"></svg>
+    </div>
+
+    <div id="message" class="lego-message">Tap a brick, then tap the plate to place it.</div>
+
+    <div class="palette-wrap">
+      <div id="palette" class="palette" aria-label="Brick palette"></div>
+    </div>
+  </main>
+
+  <nav class="lego-controls">
+    <button id="btn-prev" class="nav-btn" type="button" aria-label="Previous level">&larr;</button>
+    <span id="level-name" class="level-name"></span>
+    <button id="btn-next" class="nav-btn" type="button" aria-label="Next level">&rarr;</button>
+  </nav>
+
+  <!-- Win overlay -->
+  <div id="overlay-win" class="overlay hidden">
+    <div class="panel">
+      <h2>Built!</h2>
+      <p id="win-summary" class="muted"></p>
+      <button id="btn-next-level" class="primary" type="button">Next level</button>
+      <button id="btn-replay" class="text-btn" type="button">Build again</button>
+      <button id="btn-home" class="text-btn" type="button">Back to games</button>
+    </div>
+  </div>
+
+  <!-- Help overlay -->
+  <div id="overlay-help" class="overlay hidden">
+    <div class="panel">
+      <h2>How to play</h2>
+      <ul class="how">
+        <li>The cream shape on the green baseplate is the figure you must build.</li>
+        <li>Tap a brick in the palette to pick it up, then tap the plate to drop it. The brick anchors at its top-left.</li>
+        <li>Bricks have to stay inside the cream shape — no overhang and no overlap.</li>
+        <li>Tap a brick that's already on the plate to send it back to the palette.</li>
+        <li>Use every brick in the palette to win.</li>
+      </ul>
+      <button id="btn-help-close" class="primary" type="button">Got it</button>
+    </div>
+  </div>
+
+  <script type="module" src="./lego.js"></script>
+</body>
+</html>
