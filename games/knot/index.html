@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover, user-scalable=no" />
+  <meta name="theme-color" content="#1b2a41" />
+  <title>Celtic Knot Puzzle</title>
+  <link rel="stylesheet" href="../../styles.css" />
+  <link rel="stylesheet" href="./knot.css" />
+</head>
+<body class="knot-page">
+  <header class="knot-header">
+    <a class="back" href="../../" aria-label="Back to games">&larr;</a>
+    <h1>Celtic Knot</h1>
+    <button id="btn-help" class="icon-btn" aria-label="How to play">?</button>
+  </header>
+
+  <section id="hud" class="knot-hud" aria-live="polite">
+    <div class="hud-pill"><span class="hud-label">Puzzle</span><span id="hud-puzzle" class="hud-value">1/1</span></div>
+    <div class="hud-pill"><span class="hud-label">Edges</span><span id="hud-edges" class="hud-value">0</span></div>
+    <button id="btn-clear" class="text-btn" type="button">Clear</button>
+  </section>
+
+  <main class="knot-stage">
+    <div class="board-wrap">
+      <svg id="board" xmlns="http://www.w3.org/2000/svg" aria-label="Knot puzzle board"></svg>
+    </div>
+    <div id="message" class="knot-message">Tap segments between the dots. Numbers say how many sides of that cell are in the loop.</div>
+  </main>
+
+  <nav class="knot-controls">
+    <button id="btn-prev" class="nav-btn" type="button" aria-label="Previous puzzle">&larr;</button>
+    <button id="btn-check" class="primary-btn" type="button">Check</button>
+    <button id="btn-next" class="nav-btn" type="button" aria-label="Next puzzle">&rarr;</button>
+  </nav>
+
+  <!-- Win overlay -->
+  <div id="overlay-win" class="overlay hidden">
+    <div class="panel">
+      <h2>The knot is whole.</h2>
+      <p id="win-summary" class="muted"></p>
+      <button id="btn-next-puzzle" class="primary" type="button">Next puzzle</button>
+      <button id="btn-home" class="text-btn" type="button">Back to games</button>
+    </div>
+  </div>
+
+  <!-- Help -->
+  <div id="overlay-help" class="overlay hidden">
+    <div class="panel">
+      <h2>How to play</h2>
+      <ul class="how">
+        <li>Tap the short segments between dots to toggle them on or off.</li>
+        <li>The number in a cell is how many of that cell's <strong>four sides</strong> must be part of the loop.</li>
+        <li>The selected segments must form <strong>a single closed loop</strong> — every dot is used by zero or two segments, and the whole thing is connected.</li>
+        <li>Tap <em>Check</em> when you think it's done.</li>
+      </ul>
+      <button id="btn-help-close" class="primary" type="button">Got it</button>
+    </div>
+  </div>
+
+  <script type="module" src="./knot.js"></script>
+</body>
+</html>

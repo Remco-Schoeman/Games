@@ -1,0 +1,256 @@
+.knot-page {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+  min-height: 100dvh;
+  background:
+    radial-gradient(circle at 50% 0%, #1f3556 0, transparent 60%),
+    linear-gradient(180deg, #142036 0%, #0a1626 100%);
+  touch-action: manipulation;
+  overflow: hidden;
+}
+
+.knot-header {
+  display: grid;
+  grid-template-columns: 44px 1fr 44px;
+  align-items: center;
+  padding: 10px 12px;
+  gap: 8px;
+}
+
+.knot-header h1 {
+  margin: 0;
+  font-size: 18px;
+  text-align: center;
+  letter-spacing: 0.4px;
+}
+
+.knot-hud {
+  display: flex;
+  justify-content: center;
+  gap: 8px;
+  padding: 2px 12px 8px;
+  flex-wrap: wrap;
+  align-items: center;
+}
+
+.hud-pill {
+  background: var(--bg-elev);
+  border-radius: 999px;
+  padding: 6px 12px;
+  display: flex;
+  align-items: baseline;
+  gap: 6px;
+  min-height: 28px;
+}
+
+.hud-label {
+  font-size: 10px;
+  letter-spacing: 0.8px;
+  text-transform: uppercase;
+  color: #8aa0ba;
+}
+
+.hud-value {
+  font-size: 14px;
+  font-variant-numeric: tabular-nums;
+  font-weight: 600;
+}
+
+.text-btn {
+  background: transparent;
+  color: var(--accent);
+  border: 1px solid var(--accent);
+  border-radius: 10px;
+  padding: 6px 12px;
+  font: inherit;
+  font-size: 13px;
+  cursor: pointer;
+}
+
+.knot-stage {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  padding: 8px 12px;
+  min-height: 0;
+}
+
+.board-wrap {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  flex: 1;
+  min-height: 0;
+}
+
+#board {
+  width: min(100%, 92vh, 460px);
+  height: auto;
+  max-height: 100%;
+  background: #f1e4c4;
+  border-radius: 12px;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.45);
+  display: block;
+  touch-action: manipulation;
+}
+
+.dot {
+  fill: #2b3a55;
+}
+
+.clue {
+  font-family: system-ui, -apple-system, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+  font-size: 16px;
+  font-weight: 700;
+  fill: #2b3a55;
+  text-anchor: middle;
+  dominant-baseline: central;
+  pointer-events: none;
+  user-select: none;
+}
+
+.edge-hit {
+  fill: transparent;
+  cursor: pointer;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.edge {
+  stroke: #0d3b6f;
+  stroke-width: 8;
+  stroke-linecap: round;
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 0.08s ease;
+}
+
+.edge.on {
+  opacity: 1;
+}
+
+.edge.win {
+  stroke: #1f7a44;
+  filter: drop-shadow(0 0 4px rgba(31, 122, 68, 0.6));
+}
+
+.knot-message {
+  font-size: 13px;
+  color: #c9d6e6;
+  text-align: center;
+  min-height: 18px;
+  padding: 0 12px;
+}
+
+.knot-message.warn { color: #ffd47a; }
+.knot-message.good { color: #a8e6a8; }
+.knot-message.bad  { color: #ff9c87; }
+
+.knot-controls {
+  display: grid;
+  grid-template-columns: 60px 1fr 60px;
+  gap: 10px;
+  padding: 12px 16px max(env(safe-area-inset-bottom), 16px);
+  align-items: center;
+}
+
+.nav-btn {
+  height: 48px;
+  background: var(--bg-elev);
+  color: #fff;
+  border: none;
+  border-radius: 12px;
+  font-size: 20px;
+  font: inherit;
+  font-size: 20px;
+  cursor: pointer;
+}
+
+.nav-btn:disabled {
+  opacity: 0.35;
+  cursor: not-allowed;
+}
+
+.primary-btn {
+  height: 48px;
+  background: var(--accent);
+  color: #1b2a41;
+  border: none;
+  border-radius: 12px;
+  font: inherit;
+  font-weight: 700;
+  font-size: 16px;
+  cursor: pointer;
+}
+
+.primary-btn:hover { background: var(--accent-strong); }
+
+/* Overlays */
+.overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.65);
+  display: grid;
+  place-items: center;
+  padding: 16px;
+  z-index: 10;
+  backdrop-filter: blur(4px);
+}
+
+.overlay.hidden { display: none; }
+
+.panel {
+  background: var(--bg-card);
+  color: var(--ink);
+  border-radius: 16px;
+  padding: 22px;
+  width: min(100%, 380px);
+  box-shadow: 0 18px 40px rgba(0, 0, 0, 0.4);
+  max-height: 90vh;
+  overflow: auto;
+}
+
+.panel h2 { margin: 0 0 6px; font-size: 22px; }
+.panel .muted { color: var(--ink-soft); font-size: 14px; margin: 6px 0 16px; }
+
+button.primary {
+  display: block;
+  width: 100%;
+  background: var(--accent);
+  color: #1b2a41;
+  border: none;
+  border-radius: 12px;
+  padding: 14px;
+  font: inherit;
+  font-weight: 700;
+  font-size: 16px;
+  margin-top: 14px;
+  cursor: pointer;
+}
+button.primary:hover { background: var(--accent-strong); }
+
+.panel .text-btn {
+  display: block;
+  width: 100%;
+  margin: 10px 0 0;
+  color: var(--ink-soft);
+  border-color: transparent;
+  text-align: center;
+}
+
+.how {
+  padding-left: 18px;
+  margin: 0 0 16px;
+  font-size: 14px;
+  color: var(--ink-soft);
+  line-height: 1.45;
+}
+
+@media (max-height: 640px) {
+  .knot-header h1 { font-size: 16px; }
+  .nav-btn, .primary-btn { height: 42px; }
+}
